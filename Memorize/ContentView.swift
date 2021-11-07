@@ -7,18 +7,84 @@
 
 import SwiftUI
 
+
+
+
+
 struct ContentView: View {
+    
+    var emojis  = ["🚗","🚒","🚖","🛵","✈️","🛴","⛴","🚀","🚜","🚛","🛻","🚑","🚓","🏎","🛰","💺","🛩","🚢","🚧","⛽️","🪝","⚓️","🛺","🚨"]
+    
+    @State var numberOfEmojis : Int = 20
+    
     var body: some View {
         
-        HStack(){
-            CardView(isFaceUp: true)
-            CardView(isFaceUp: false)
-        }
-        .padding(.horizontal)
-        .foregroundColor(.red)
+        
+        VStack {
+            ScrollView{
+               // title.padding().foregroundColor(.black)
+                
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 105))]) {
+                    ForEach (emojis[0..<numberOfEmojis], id: \.self) { emoji in
+                        CardView(isFaceUp: true,content: emoji)
+                            .aspectRatio(2/3, contentMode: .fit)
+                    }
+                }.padding(.horizontal)
+            }//scroll
             
+                Spacer()
+                
+                HStack{
+                    remove
+                    Spacer()
+                    add
+                }
+                .padding(.horizontal)
+                .font(.headline)
+           
+            
+        }//Vstack
+        
+        .padding(.horizontal)
+        .foregroundColor(.blue)
+        
+    } // var body
+    
+    
+    
+    //=======================================//
+    var title : some View {
+        Text ("Memorize !").font(.largeTitle)
     }
-}
+    
+    var remove : some View {
+        Button(action: {
+            if numberOfEmojis > 1{
+                numberOfEmojis -= 1
+            }
+        }, label: {
+            VStack{
+                Text("Remove")
+                Image(systemName: "minus.circle")
+            }
+        })
+    } // var remove
+    
+            
+    var add :some View {
+        Button(action: {
+            if numberOfEmojis < emojis.count{
+                numberOfEmojis += 1
+            }
+        }, label: {
+            VStack{
+                Text("Add")
+                Image(systemName: "plus.circle")
+            }
+        })
+    } // var add
+    
+} //Struct ContentView:some View
 
 
 
@@ -26,20 +92,26 @@ struct ContentView: View {
 
 
 struct CardView :  View {
-    var isFaceUp: Bool
+    @State var isFaceUp: Bool
+    var content: String
+  
     
     var body: some View {
-        
+        let shape = RoundedRectangle(cornerRadius:  20)
         ZStack(){
             if isFaceUp{
-                RoundedRectangle(cornerRadius:  20).stroke(lineWidth: 3)
-                RoundedRectangle(cornerRadius: 20).foregroundColor(.white)
-                Text("😎").font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
+                shape.stroke(lineWidth: 3)
+                shape.foregroundColor(.white)
+                Text(content).font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
                 
             } else {
-                RoundedRectangle(cornerRadius: 20)
+                shape.fill()
             }
-        }
+        }//Zstack
+        .onTapGesture(perform: {
+            isFaceUp = !isFaceUp
+        })
+        
     }
 }
 
@@ -52,7 +124,7 @@ struct CardView :  View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().preferredColorScheme(.dark)
+     //   ContentView().preferredColorScheme(.dark)
         ContentView().preferredColorScheme(.light)
     }
 }
