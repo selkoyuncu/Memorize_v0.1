@@ -10,18 +10,36 @@ import Foundation
 
 struct MemoryGame<T> {
     
-    var cards : Array <Card<T>>
+    // read-only for other classes
+    // only choose can change card data
+    private(set) var cards : [Card]
     
-    func choose(_ choosen: Card<T>){
+    
+    init(numberOfPairsOfCards:Int, cardContentFoo:(Int)->T){
+        
+        // generate an empty array
+        cards = [Card]()
+        
+        // generate contents
+        for pairIndex in 0..<numberOfPairsOfCards{
+            cards.append( Card(content: cardContentFoo(pairIndex)))
+            cards.append( Card(content: cardContentFoo(pairIndex)))
+        }
+        
         
     }
     
-    struct Card<T> {
+    
+    
+    func choose(_ card: Card){
         
+    }
+    
+    struct Card {
         var isFaceUp:Bool = false
         var isMatched:Bool = false
         var content:T
         
-    }
+    }// struct Card
     
-}// struct memorygame
+}// struct MemoryGame
