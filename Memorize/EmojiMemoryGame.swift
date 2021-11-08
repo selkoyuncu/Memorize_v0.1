@@ -9,7 +9,7 @@ import Foundation
 
 
 
-//var x : [MemoryGame<String>.Card] = MemoryGame<String>.Card(content: "1")
+
 
 class EmojiMemoryGame {
     
@@ -20,9 +20,15 @@ class EmojiMemoryGame {
     //   MV owns the Model such a variable.
     
     
+    
     //2. Classes Variables should have initizers or assigned value (before generated)
     //   Here we will be using Model initilizer with given 2 parameters to use
-    private var model : MemoryGame <String> =  MemoryGame<String>(numberOfPairsOfCards:4)
+    private var model : MemoryGame <String> =  MemoryGame<String>(numberOfPairsOfCards:4) {index in
+         emojis[index]
+    }
+    
+    static var emojis  = ["🚗","🚒","🚖","🛵","✈️","🛴","⛴","🚀","🚜","🚛","🛻","🚑","🚓","🏎","🛰","💺","🛩","🚢","🚧","⛽️","🪝","⚓️","🛺","🚨"]
+
     
     
     //3. This function returns the COPY of the actual cards
