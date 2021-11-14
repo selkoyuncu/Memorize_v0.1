@@ -10,76 +10,34 @@ import SwiftUI
 
 struct ContentView: View {
     
-    var emojis  = ["🚗","🚒","🚖","🛵","✈️","🛴","⛴","🚀","🚜","🚛","🛻","🚑","🚓","🏎","🛰","💺","🛩","🚢","🚧","⛽️","🪝","⚓️","🛺","🚨"]
-    
-    @State var numberOfEmojis : Int = 20
+    var viewModel:EmojiMemoryGame
     
     var body: some View {
         
-        
-        VStack {
-            ScrollView{
-               // title.padding().foregroundColor(.black)
-                
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 50))]) {
-                    ForEach (emojis[0..<numberOfEmojis], id: \.self) { emoji in
-                        CardView(isFaceUp: true,content: emoji)
-                            .aspectRatio(2/3, contentMode: .fit)
-                    }
-                }.padding(.horizontal)
-            }//scroll
+        ScrollView{
             
-                Spacer()
-                
-                HStack{
-                    remove
-                    Spacer()
-                    add
-                }
-                .padding(.horizontal)
-                .font(.headline)
-           
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                ForEach ( viewModel.cards ) { card in
+                    CardView(card: card)
+                        .aspectRatio(2/3, contentMode: .fit)
+                        .onTapGesture{
+                            viewModel.choose(card)
+                        }
+                   
+                }//forEach
+            }//Lazy
             
-        }//Vstack
-        
+            .foregroundColor(.red)
+        }//scroll
         .padding(.horizontal)
-        .foregroundColor(.blue)
         
     } // var body
     
     
     
     //=======================================//
-    var title : some View {
-        Text ("Memorize !").font(.largeTitle)
-    }
+
     
-    var remove : some View {
-        Button(action: {
-            if numberOfEmojis > 1{
-                numberOfEmojis -= 1
-            }
-        }, label: {
-            VStack{
-                Text("Remove")
-                Image(systemName: "minus.circle")
-            }
-        })
-    } // var remove
-    
-            
-    var add :some View {
-        Button(action: {
-            if numberOfEmojis < emojis.count{
-                numberOfEmojis += 1
-            }
-        }, label: {
-            VStack{
-                Text("Add")
-                Image(systemName: "plus.circle")
-            }
-        })
-    } // var add
     
 } //Struct ContentView:some View
 
@@ -89,25 +47,22 @@ struct ContentView: View {
 
 
 struct CardView :  View {
-    @State var isFaceUp: Bool
-    var content: String
-  
+
+    var card : MemoryGame<String>.Card
     
     var body: some View {
         let shape = RoundedRectangle(cornerRadius:  20)
         ZStack(){
-            if isFaceUp{
-                shape.stroke(lineWidth: 3)
-                shape.foregroundColor(.white)
-                Text(content).font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
+            if card.isFaceUp{
+                shape.fill().foregroundColor(.white)
+                shape.strokeBorder(lineWidth: 3)
+                Text(card.content).font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
                 
             } else {
                 shape.fill()
             }
         }//Zstack
-        .onTapGesture(perform: {
-            isFaceUp = !isFaceUp
-        })
+        .foregroundColor(.red)
         
     }
 }
@@ -118,6 +73,7 @@ struct CardView :  View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
      //   ContentView().preferredColorScheme(.dark)
-        ContentView().preferredColorScheme(.light)
+        let game = EmojiMemoryGame()
+        ContentView(viewModel:game).preferredColorScheme(.light)
     }
 }

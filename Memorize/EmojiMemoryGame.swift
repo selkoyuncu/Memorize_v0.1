@@ -18,12 +18,10 @@ class EmojiMemoryGame {
     //   but generally, MV initilizes the Model.
     //   Also, if the MV goes away, Model will go away and game finishes
     //   MV owns the Model such a variable.
-    
-    
-    
+
     //2. Classes Variables should have initizers or assigned value (before generated)
     //   Here we will be using Model initilizer with given 2 parameters to use
-    private var model : MemoryGame <String> =  MemoryGame<String>(numberOfPairsOfCards:4) {index in
+    private var model : MemoryGame <String> =  MemoryGame<String>(numberOfPairsOfCards:10) {index in
          emojis[index]
     }
     
@@ -37,6 +35,10 @@ class EmojiMemoryGame {
     var cards : [MemoryGame<String>.Card] {
         return model.cards
     }
-    
+        
+    // MARK: - Intent
+    public func choose(_ card:MemoryGame<String>.Card){
+        model.choose(card)
+    }
     
 } //emojiMemoryGame
