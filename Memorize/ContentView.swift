@@ -78,6 +78,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
      //   ContentView().preferredColorScheme(.dark)
         let game = EmojiMemoryGame()
-        ContentView(viewModel:game).preferredColorScheme(.light)
+        ContentView(viewModel:game).preferredColorScheme(.dark)
     }
 }
