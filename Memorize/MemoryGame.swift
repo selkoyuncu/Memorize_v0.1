@@ -6,14 +6,16 @@
 //
 
 import Foundation
+import SwiftUI
 
 
-struct MemoryGame<T> {
+struct MemoryGame<T> where T:Equatable {
     
     // read-only for other classes
     // only choose can change card data
     private(set) var cards : [Card]
     
+    var idxOfOneAndOnlyCardisFacedUp : Int?
     
     init(numberOfPairsOfCards:Int, cardContentFoo:(Int)->T){
         
@@ -28,13 +30,39 @@ struct MemoryGame<T> {
     }//init
     
     
-    
-    func choose(_ card: Card){
-        print(card)
+    // func
+    mutating func choose(_ card: Card){
+        
+     
+        
+        if let chosenIdx = cards.firstIndex(where: {aCard in aCard.id == card.id }),
+           !cards[chosenIdx].isMatched,
+           !cards[chosenIdx].isFaceUp
+        {
+            if  let idxOfPotantialMatch = idxOfOneAndOnlyCardisFacedUp
+            {
+                if cards[idxOfPotantialMatch].content == cards[chosenIdx].content {
+                    cards[idxOfPotantialMatch].isMatched = true
+                    cards[chosenIdx].isMatched = true
+                }
+                idxOfOneAndOnlyCardisFacedUp = nil
+               
+            }else{
+                for idx in 0..<cards.count{
+                    cards[idx].isFaceUp = false
+                }
+                idxOfOneAndOnlyCardisFacedUp = chosenIdx
+            }
+            cards[chosenIdx].isFaceUp.toggle()
+        }
+        
     }//choose
+
+    
+
     
     struct Card : Identifiable{
-        var isFaceUp:Bool = true
+        var isFaceUp:Bool = false
         var isMatched:Bool = false
         var content:T
         var id: Int

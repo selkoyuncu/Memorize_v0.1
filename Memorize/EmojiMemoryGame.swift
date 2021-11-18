@@ -11,7 +11,7 @@ import Foundation
 
 
 
-class EmojiMemoryGame {
+class EmojiMemoryGame :ObservableObject{
     
     //1. Manytimes, MV generates the Model
     //   Sometimes if reaching to DB or network it is not necessary
@@ -21,7 +21,7 @@ class EmojiMemoryGame {
 
     //2. Classes Variables should have initizers or assigned value (before generated)
     //   Here we will be using Model initilizer with given 2 parameters to use
-    private var model : MemoryGame <String> =  MemoryGame<String>(numberOfPairsOfCards:10) {index in
+   @Published private var model : MemoryGame <String> =  MemoryGame<String>(numberOfPairsOfCards:10) {index in
          emojis[index]
     }
     
