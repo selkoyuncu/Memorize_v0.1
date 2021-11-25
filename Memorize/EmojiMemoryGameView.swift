@@ -8,20 +8,20 @@
 import SwiftUI
 
 
-struct ContentView: View {
+struct EmojiMemoryGameView: View {
     
-    @ObservedObject var viewModel:EmojiMemoryGame
+    @ObservedObject var game:EmojiMemoryGame
     
     var body: some View {
         
         ScrollView{
             
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                ForEach ( viewModel.cards ) { card in
+                ForEach ( game.cards ) { card in
                     CardView(card: card)
                         .aspectRatio(2/3, contentMode: .fit)
                         .onTapGesture{
-                            viewModel.choose(card)
+                            game.choose(card)
                         }
                    
                 }//forEach
@@ -48,7 +48,7 @@ struct ContentView: View {
 
 struct CardView :  View {
 
-    var card : MemoryGame<String>.Card
+    let card : MemoryGame<String>.Card
     
     var body: some View {
         let shape = RoundedRectangle(cornerRadius:  20)
@@ -78,6 +78,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
      //   ContentView().preferredColorScheme(.dark)
         let game = EmojiMemoryGame()
-        ContentView(viewModel:game).preferredColorScheme(.dark)
+        EmojiMemoryGameView(game:game).preferredColorScheme(.dark)
     }
 }

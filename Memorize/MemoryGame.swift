@@ -15,7 +15,7 @@ struct MemoryGame<T> where T:Equatable {
     // only choose can change card data
     private(set) var cards : [Card]
     
-    var idxOfOneAndOnlyCardisFacedUp : Int?
+    private var idxOfOneAndOnlyCardisFacedUp : Int?
     
     init(numberOfPairsOfCards:Int, cardContentFoo:(Int)->T){
         
@@ -33,7 +33,6 @@ struct MemoryGame<T> where T:Equatable {
     // func
     mutating func choose(_ card: Card){
         
-     
         
         if let chosenIdx = cards.firstIndex(where: {aCard in aCard.id == card.id }),
            !cards[chosenIdx].isMatched,

@@ -12,6 +12,7 @@ import Foundation
 
 
 class EmojiMemoryGame :ObservableObject{
+    typealias Card = MemoryGame<String>.Card
     
     //1. Manytimes, MV generates the Model
     //   Sometimes if reaching to DB or network it is not necessary
@@ -25,19 +26,19 @@ class EmojiMemoryGame :ObservableObject{
          emojis[index]
     }
     
-    static var emojis  = ["🚗","🚒","🚖","🛵","✈️","🛴","⛴","🚀","🚜","🚛","🛻","🚑","🚓","🏎","🛰","💺","🛩","🚢","🚧","⛽️","🪝","⚓️","🛺","🚨"]
+    private static var emojis  = ["🚗","🚒","🚖","🛵","✈️","🛴","⛴","🚀","🚜","🚛","🛻","🚑","🚓","🏎","🛰","💺","🛩","🚢","🚧","⛽️","🪝","⚓️","🛺","🚨"]
 
     
     
     //3. This function returns the COPY of the actual cards
     //   You can use the private(set) instead as well.
     //
-    var cards : [MemoryGame<String>.Card] {
+    var cards : [Card] {
         return model.cards
     }
         
     // MARK: - Intent
-    public func choose(_ card:MemoryGame<String>.Card){
+    public func choose(_ card:Card){
         model.choose(card)
     }
     
