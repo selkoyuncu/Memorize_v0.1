@@ -33,6 +33,10 @@ struct MemoryGame<T> where T:Equatable {
     // func
     mutating func choose(_ card: Card){
         
+        //1- find the chosen index(location) from the cards array
+        //2- if this card is already chosen exit from choose function.
+        //3- check if there is an already active card waiting for match
+        //4- compare the active card content with chosen card content and mark if matched.
         
         if let chosenIdx = cards.firstIndex(where: {aCard in aCard.id == card.id }),
            !cards[chosenIdx].isMatched,

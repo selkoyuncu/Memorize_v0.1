@@ -18,14 +18,14 @@ struct EmojiMemoryGameView: View {
             
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
                 ForEach ( game.cards ) { card in
-                    CardView(card: card)
+                    CardView(card)
                         .aspectRatio(2/3, contentMode: .fit)
                         .onTapGesture{
                             game.choose(card)
                         }
                    
                 }//forEach
-            }//Lazy
+            }//LazyVGrid
             
             .foregroundColor(.red)
         }//scroll
@@ -48,7 +48,13 @@ struct EmojiMemoryGameView: View {
 
 struct CardView :  View {
 
-    let card : MemoryGame<String>.Card
+    //typedef used
+    let card : EmojiMemoryGame.Card
+    
+    //init given parameter free init option to us
+    init (_ card: EmojiMemoryGame.Card){
+        self.card = card
+    }
     
     var body: some View {
         let shape = RoundedRectangle(cornerRadius:  20)

@@ -22,9 +22,7 @@ class EmojiMemoryGame :ObservableObject{
 
     //2. Classes Variables should have initizers or assigned value (before generated)
     //   Here we will be using Model initilizer with given 2 parameters to use
-   @Published private var model : MemoryGame <String> =  MemoryGame<String>(numberOfPairsOfCards:10) {index in
-         emojis[index]
-    }
+   @Published private var model  =  MemoryGame<String>(numberOfPairsOfCards:10) { emojis[$0]   }
     
     private static var emojis  = ["🚗","🚒","🚖","🛵","✈️","🛴","⛴","🚀","🚜","🚛","🛻","🚑","🚓","🏎","🛰","💺","🛩","🚢","🚧","⛽️","🪝","⚓️","🛺","🚨"]
 
