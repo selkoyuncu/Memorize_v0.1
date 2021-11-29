@@ -95,3 +95,15 @@ struct MemoryGame<T> where T:Equatable {
     }// struct Card
     
 }// struct MemoryGame
+
+
+extension Array {
+    var oneAndOnly: Element? {
+        if self.count == 1{
+            return self.first
+        }else {
+            return nil
+        }
+    }
+    
+}

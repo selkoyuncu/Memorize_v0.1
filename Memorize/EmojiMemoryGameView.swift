@@ -57,24 +57,43 @@ struct CardView :  View {
     }
     
     var body: some View {
-        let shape = RoundedRectangle(cornerRadius:  20)
-        ZStack(){
-            if card.isFaceUp{
-                shape.fill().foregroundColor(.white)
-                shape.strokeBorder(lineWidth: 3)
-                Text(card.content).font(/*@START_MENU_TOKEN@*/.largeTitle/*@END_MENU_TOKEN@*/)
-                
-            } else if card.isMatched{
-                shape.opacity(0)
-            } else {
-                shape.fill()
-            }
 
+        GeometryReader { geometry in
             
-        }//Zstack
-        .foregroundColor(.red)
+            let shape = RoundedRectangle(cornerRadius:  20)
+            ZStack(){
+                if card.isFaceUp{
+                    shape.fill().foregroundColor(.white)
+                    shape.strokeBorder(lineWidth: 3)
+                    Text(card.content).font(font(in: geometry.size))
+                    
+                } else if card.isMatched{
+                    shape.opacity(0)
+                } else {
+                    shape.fill()
+                }
+                
+            }//Zstack
+            .foregroundColor(.red)
+            
+        }// geometry reader
         
     }
+    
+    private func font ( in size:CGSize ) -> Font{
+        return Font.system(size:  min(size.height, size.width) * DrawingConstants.fontScale)
+    }
+    
+    private struct DrawingConstants {
+     
+        static let cornerRadious: CGFloat = 20
+        static let lineWidth : CGFloat = 3
+        static let fontScale : CGFloat = 0.8
+    }
+        
+        
+    
+    
 }
 
 
