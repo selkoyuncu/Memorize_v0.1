@@ -14,20 +14,12 @@ struct EmojiMemoryGameView: View {
     
     var body: some View {
         
-//        ScrollView{
-//
-//            LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-//                ForEach ( game.cards ) { card in
-        AspectVGrid(items:game.cards,aspectRatio:2/3, content:{ card in
-            CardView(card)
-                .padding(4)
-                .onTapGesture{
-                    game.choose(card)
-                }
-        })
-//                }//forEach
-//            }//LazyVGrid
-//        }//scroll
+        
+        AspectVGrid(items:game.cards,aspectRatio:2/3) { card in
+            cardView(for: card)
+            
+        }//AspectVGrid
+        
         .foregroundColor(.red)
         .padding(.horizontal)
         
@@ -36,7 +28,19 @@ struct EmojiMemoryGameView: View {
     
     
     //=======================================//
-
+    @ViewBuilder
+    private func cardView(for card:EmojiMemoryGame.Card)-> some View {
+        if card.isMatched && !card.isFaceUp {
+            Rectangle().opacity(0)
+            
+        }else{
+            CardView(card)
+                .padding(4)
+                .onTapGesture{
+                    game.choose(card)
+                }
+        }
+    }
     
     
 } //Struct ContentView:some View
@@ -69,7 +73,7 @@ struct CardView :  View {
                     Text(card.content).font(font(in: geometry.size))
                     
                 } else if card.isMatched{
-                    shape.opacity(0)
+                    //shape.opacity(0) // make it invisible
                 } else {
                     shape.fill()
                 }
