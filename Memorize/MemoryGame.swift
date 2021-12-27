@@ -15,6 +15,7 @@ struct MemoryGame<T> where T:Equatable {
     // only choose can change card data
     private(set) var cards : [Card]
 
+    //=======================================================
     private var idxOfOneAndOnlyCardisFacedUp : Int?{
         get{
             var faceUpCardsIndicies = [Int]()
@@ -41,7 +42,7 @@ struct MemoryGame<T> where T:Equatable {
         }
     }
 
-    
+    //=======================================================
     init(numberOfPairsOfCards:Int, cardContentFoo:(Int)->T){
 
            // generate an empty array
@@ -54,38 +55,38 @@ struct MemoryGame<T> where T:Equatable {
            }
        }//init
 
-
-       // func
-       mutating func choose(_ card: Card){
-
-           //1- find the chosen index(location) from the cards array
-           //2- if this card is already chosen exit from choose function.
-           //3- check if there is an already active card waiting for match
-           //4- compare the active card content with chosen card content and mark if matched.
-
-           if let chosenIdx = cards.firstIndex(where: {aCard in aCard.id == card.id }),
-              !cards[chosenIdx].isMatched,
-              !cards[chosenIdx].isFaceUp
-           {
-               if  let idxOfPotantialMatch = idxOfOneAndOnlyCardisFacedUp
-               {
-                   if cards[idxOfPotantialMatch].content == cards[chosenIdx].content {
-                       cards[idxOfPotantialMatch].isMatched = true
-                       cards[chosenIdx].isMatched = true
-                   }
-                   cards[chosenIdx].isFaceUp = true
-
-               }else{
-
-                   idxOfOneAndOnlyCardisFacedUp = chosenIdx
-               }
-
-           }
-
-       }//choose
-
-
     
+    //=======================================================
+    mutating func choose(_ card: Card){
+        
+        //1- find the chosen index(location) from the cards array
+        //2- if this card is already chosen exit from choose function.
+        //3- check if there is an already active card waiting for match
+        //4- compare the active card content with chosen card content and mark if matched.
+        
+        if let chosenIdx = cards.firstIndex(where: {aCard in aCard.id == card.id }),
+           !cards[chosenIdx].isMatched,
+           !cards[chosenIdx].isFaceUp
+        {
+            if  let idxOfPotantialMatch = idxOfOneAndOnlyCardisFacedUp
+            {
+                if cards[idxOfPotantialMatch].content == cards[chosenIdx].content {
+                    cards[idxOfPotantialMatch].isMatched = true
+                    cards[chosenIdx].isMatched = true
+                }
+                cards[chosenIdx].isFaceUp = true
+                
+            }else{
+                
+                idxOfOneAndOnlyCardisFacedUp = chosenIdx
+            }
+            
+        }
+        
+    }//choose
+    
+
+    //=======================================================
     struct Card : Identifiable{
         var isFaceUp:Bool = false
         var isMatched:Bool = false
@@ -97,6 +98,7 @@ struct MemoryGame<T> where T:Equatable {
 }// struct MemoryGame
 
 
+//=======================================================
 extension Array {
     var oneAndOnly: Element? {
         if self.count == 1{

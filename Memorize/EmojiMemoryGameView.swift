@@ -12,36 +12,34 @@ struct EmojiMemoryGameView: View {
     
     @ObservedObject var game:EmojiMemoryGame
     
+    //=======================================//
     var body: some View {
-        
         
         AspectVGrid(items:game.cards,aspectRatio:2/3) { card in
             cardView(for: card)
-            
-        }//AspectVGrid
-        
-        .foregroundColor(.red)
-        .padding(.horizontal)
+        }
+            .foregroundColor(.red)
+            .padding(.horizontal)
         
     } // var body
     
-    
-    
     //=======================================//
     @ViewBuilder
-    private func cardView(for card:EmojiMemoryGame.Card)-> some View {
-        if card.isMatched && !card.isFaceUp {
+    private func cardView(for card:EmojiMemoryGame.Card)-> some View
+    {
+    
+        if card.isMatched && !card.isFaceUp
+        {
             Rectangle().opacity(0)
-            
-        }else{
+        }
+        else
+        {
             CardView(card)
                 .padding(4)
-                .onTapGesture{
-                    game.choose(card)
-                }
+                .onTapGesture { game.choose(card) }
         }
-    }
     
+    }//cardView()
     
 } //Struct ContentView:some View
 
@@ -66,28 +64,26 @@ struct CardView :  View {
             
             
             ZStack(){
-                let shape = RoundedRectangle(cornerRadius:  DrawingConstants.cornerRadious)
-                if card.isFaceUp{
-                    shape.fill().foregroundColor(.white)
-                    shape.strokeBorder(lineWidth: 3)
-                    Pie(startAngle: Angle(degrees: 0-90), endAngle: Angle(degrees: 110-90) )
-                        .padding(5)
-                        .opacity(0.5)
+                Pie(startAngle: Angle(degrees: 0-90), endAngle: Angle(degrees: 110-90) )
+                    .padding(5)
+                    .opacity(0.5)
+                Text(card.content)
                     
-                    Text(card.content).font(font(in: geometry.size))
-                    
-                    
-                } else if card.isMatched{
-                    //shape.opacity(0) // make it invisible
-                } else {
-                    shape.fill()
-                }
+                    .rotationEffect(Angle(degrees: card.isMatched ? 360 : 0))
+                    .animation(.linear(duration: 2).repeatForever(autoreverses: false))
+                    .font(Font.system(size: DrawingConstants.fontSize))
+                   // .font(font(in: geometry.size))
+                    .scaleEffect(scale(thatFits:geometry.size))
                 
-            }//Zstack
-            .foregroundColor(.red)
+            }
+                //.modifier(Cardify(isFaceUp: card.isFaceUp))
+                .cardify(isFaceUp: card.isFaceUp)
             
         }// geometry reader
         
+    }
+    private func scale (thatFits size: CGSize)->CGFloat{
+        min(size.width,size.height) / (DrawingConstants.fontSize / DrawingConstants.fontScale)
     }
     
     private func font ( in size:CGSize ) -> Font{
@@ -99,6 +95,7 @@ struct CardView :  View {
         static let cornerRadious: CGFloat = 10
         static let lineWidth : CGFloat = 3
         static let fontScale : CGFloat = 0.7
+        static let fontSize : CGFloat = 32
     }
         
         
